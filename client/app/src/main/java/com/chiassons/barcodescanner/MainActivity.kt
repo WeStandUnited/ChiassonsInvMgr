@@ -50,8 +50,9 @@ class MainActivity : ComponentActivity() {
 
         gScanButton = findViewById(R.id.gScanButton)
         gScanButton.setOnClickListener {
-            barcodeValueTextView.text = gBarcode.rawValue
-
+            //gBarcode.rawValue
+            SwitchToInvView(gBarcode)
+            //Log.d("myTag", "This is my message");
         }
     }
 
