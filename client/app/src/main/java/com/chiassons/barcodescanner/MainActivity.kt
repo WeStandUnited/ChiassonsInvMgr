@@ -20,6 +20,7 @@ import com.google.mlkit.vision.common.InputImage
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.chiassons.barcodescanner.tcInventoryMgr
+import com.google.mlkit.vision.barcode.Barcode.BarcodeFormat
 
 class MainActivity : ComponentActivity() {
 
@@ -82,10 +83,26 @@ class MainActivity : ComponentActivity() {
 
         val intent = Intent(this,tcInventoryMgr::class.java)
         intent.putExtra("BarCode", barcode.rawValue)
-        intent.putExtra("BarCodeType", barcode.valueType)
+        intent.putExtra("BarCodeFormat", getBarcodeFormatString(barcode.format))
         startActivity(intent)
     }
-
+    fun getBarcodeFormatString(format: Int): String {
+        return when (format) {
+            Barcode.FORMAT_CODE_39 -> "FORMAT_CODE_39"
+            Barcode.FORMAT_CODE_93 -> "FORMAT_CODE_93"
+            Barcode.FORMAT_CODE_128 -> "FORMAT_CODE_128"
+            Barcode.FORMAT_EAN_8 -> "FORMAT_EAN_8"
+            Barcode.FORMAT_EAN_13 -> "FORMAT_EAN_13"
+            Barcode.FORMAT_ITF -> "FORMAT_ITF"
+            Barcode.FORMAT_UPC_A -> "FORMAT_UPC_A"
+            Barcode.FORMAT_UPC_E -> "FORMAT_UPC_E"
+            Barcode.FORMAT_AZTEC -> "FORMAT_AZTEC"
+            Barcode.FORMAT_DATA_MATRIX -> "FORMAT_DATA_MATRIX"
+            Barcode.FORMAT_PDF417 -> "FORMAT_PDF417"
+            Barcode.FORMAT_QR_CODE -> "FORMAT_QR_CODE"
+            else -> "Unknown"
+        }
+    }
     inner class BarcodeAnalyzer : ImageAnalysis.Analyzer {
         @OptIn(ExperimentalGetImage::class)
         override fun analyze(image: ImageProxy) {
@@ -117,12 +134,16 @@ class MainActivity : ComponentActivity() {
                     for (barcode in barcodes) {
 
                         gBarcode = barcode;
-/*                        if (barcodeValueTextView.text != "Scan a barcode")
-                        {
-                            // Goto New menu
-                            SwitchToInvView(barcode);
-                            Log.d("BarcodeAnalyzer", "Barcode detected: ${barcode.rawValue}")
-                        }*/
+
+                        val format = barcode.format
+                        val value = barcode.rawValue
+                        Log.d("Barcode", "Format: "+getBarcodeFormatString(format))
+                        /*                        if (barcodeValueTextView.text != "Scan a barcode")
+                                                {
+                                                    // Goto New menu
+                                                    SwitchToInvView(barcode);
+                                                    Log.d("BarcodeAnalyzer", "Barcode detected: ${barcode.rawValue}")
+                                                }*/
 
                     }
                 }
