@@ -1,0 +1,38 @@
+//Requst Client 1: Item Check 
+{
+
+ "BarCodeNumber" : 
+ "BarCodeFormat" : 
+
+}
+//Request Client 1a: Item Image
+{
+ "Image Path" :
+}
+
+//Expected Response 1: Item is in database
+{
+
+ "BarCodeNumber" :
+ "BarCodeFormat" :
+ "Quantity" :
+ "Item Name" :
+ "Image Path" :
+}
+// Expected Response 1 : Item is not in database
+{
+ "BarCodeNumber" : null
+ "BarCodeFormat" : null
+ "Quantity" : null 
+ "Item Name" : null
+ "Image Path" : null
+
+}
+
+//Expected Response 1a : Image path is not null
+{
+
+// Returns Byte Array of image 
+}
+
+

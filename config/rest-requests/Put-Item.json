@@ -1,0 +1,18 @@
+// Client Put Request 1 : Item is not in database and wants to be added eg.
+{
+ "BarCodeNumber" : "111111"
+ "BarCodeFormat" : "UPC_A"
+ "Quantity" : "1"
+ "Item Name" : "PlaceHolder"
+ "Image-Includes" : true
+}
+// Server Expected Response 1 : Item added successfully
+{
+
+ "Item-ID": 123123 // this ID can be cached for faster lookup if item-id = null then item failed to add to database 
+
+}
+// Client sending Optional image
+//files name format BarcodeNumber_BarcodeFormat_Item-ID.png
+
+
