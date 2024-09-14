@@ -7,18 +7,22 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.Barcode.BarcodeValueType
+import tcCache
 
 class tcInventoryMgr : AppCompatActivity() {
 
-    var gItemCache : HashMap<Pair<String, String>, String>
-            = HashMap<Pair<String, String>, String> ();
+    lateinit var mcCache : tcCache
+    lateinit var mcItemCache : HashMap<Barcode, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        mcCache = tcCache.get()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inv_mgr)
         val barCodeID = intent.getStringExtra("BarCode")
         val barcodeFormat = intent.getStringExtra("BarCodeFormat")
-        Log.d("BarcodeAnalyzer", "Barcode detected: " + barCodeID + ":" + barcodeFormat)
+        val mcItemId = intent.getStringExtra("Item-Id")
+
+        Log.d("BarcodeAnalyzer", "Barcode detected: " + barCodeID + ":" + barcodeFormat+ ":"+mcItemId)
 
         // Use the value to send a get request to server
 

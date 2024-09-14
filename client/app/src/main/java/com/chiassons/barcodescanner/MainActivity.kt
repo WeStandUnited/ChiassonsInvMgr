@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.chiassons.barcodescanner.tcInventoryMgr
 import com.google.mlkit.vision.barcode.Barcode.BarcodeFormat
+import tcCache
 
 class MainActivity : ComponentActivity() {
 
@@ -29,6 +30,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var gScanButton: Button
     public lateinit var gBarcode: Barcode;
+    lateinit var mcCache : tcCache
+    lateinit var mcItemCache : HashMap<Barcode, String>
+
 
     private val cameraPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
@@ -42,6 +46,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        mcCache = tcCache.get()
+        mcItemCache = tcCache.getMap()
 
         previewView = findViewById(R.id.previewView)
 
@@ -84,6 +91,7 @@ class MainActivity : ComponentActivity() {
         val intent = Intent(this,tcInventoryMgr::class.java)
         intent.putExtra("BarCode", barcode.rawValue)
         intent.putExtra("BarCodeFormat", getBarcodeFormatString(barcode.format))
+        intent.putExtra("Item-Id",mcItemCache.get(barcode))
         startActivity(intent)
     }
     fun getBarcodeFormatString(format: Int): String {
@@ -132,19 +140,7 @@ class MainActivity : ComponentActivity() {
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
                     for (barcode in barcodes) {
-
                         gBarcode = barcode;
-
-                        val format = barcode.format
-                        val value = barcode.rawValue
-                        Log.d("Barcode", "Format: "+getBarcodeFormatString(format))
-                        /*                        if (barcodeValueTextView.text != "Scan a barcode")
-                                                {
-                                                    // Goto New menu
-                                                    SwitchToInvView(barcode);
-                                                    Log.d("BarcodeAnalyzer", "Barcode detected: ${barcode.rawValue}")
-                                                }*/
-
                     }
                 }
                 .addOnFailureListener {

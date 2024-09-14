@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
 }
-
 android {
     namespace = "com.chiassons.barcodescanner"
     compileSdk = 34
@@ -50,6 +49,7 @@ android {
 }
 
 dependencies {
+
 // Google ML Kit Barcode Scanning
     implementation ("com.google.mlkit:barcode-scanning:17.0.0")
 
@@ -85,4 +85,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }
