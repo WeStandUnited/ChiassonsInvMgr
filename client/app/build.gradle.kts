@@ -52,6 +52,7 @@ dependencies {
 
 // Google ML Kit Barcode Scanning
     implementation ("com.google.mlkit:barcode-scanning:17.0.0")
+    //implementation ("com.google.mlkit:barcode-scanning:18.1.0")
 
 // CameraX dependencies
     implementation ("androidx.camera:camera-core:1.1.0")
@@ -69,6 +70,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("com.squareup.moshi:moshi:1.14.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    // ML Kit Barcode Scanning
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

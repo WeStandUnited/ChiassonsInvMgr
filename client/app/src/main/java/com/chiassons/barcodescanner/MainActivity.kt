@@ -3,8 +3,12 @@ package com.chiassons.barcodescanner
 import androidx.activity.ComponentActivity
 import android.Manifest
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,19 +23,16 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.common.InputImage
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import com.chiassons.barcodescanner.tcInventoryMgr
-import com.google.mlkit.vision.barcode.Barcode.BarcodeFormat
-import tcCache
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var previewView: PreviewView
-    private lateinit var barcodeValueTextView: TextView
+    private lateinit var gBarCodeView: TextView
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var gScanButton: Button
-    public lateinit var gBarcode: Barcode;
-    lateinit var mcCache : tcCache
-    lateinit var mcItemCache : HashMap<Barcode, String>
+    lateinit var gBarcode: Barcode
 
 
     private val cameraPermissionLauncher =
@@ -46,21 +47,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        mcCache = tcCache.get()
-        mcItemCache = tcCache.getMap()
-
         previewView = findViewById(R.id.previewView)
-
         cameraExecutor = Executors.newSingleThreadExecutor()
-
         cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-
         gScanButton = findViewById(R.id.gScanButton)
         gScanButton.setOnClickListener {
-            //gBarcode.rawValue
-            SwitchToInvView(gBarcode)
-            //Log.d("myTag", "This is my message");
+            try {
+                SwitchToInvView(gBarcode)
+            } catch(e : Exception){
+                gScanButton.backgroundTintList = ColorStateList.valueOf(Color.RED)
+                Log.d("gScanButton","Barcode null")
+            }
         }
     }
 
@@ -85,16 +82,18 @@ class MainActivity : ComponentActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    fun SwitchToInvView(barcode: Barcode)
+    private fun SwitchToInvView(barcode: Barcode)
     {
-
-        val intent = Intent(this,tcInventoryMgr::class.java)
-        intent.putExtra("BarCode", barcode.rawValue)
-        intent.putExtra("BarCodeFormat", getBarcodeFormatString(barcode.format))
-        intent.putExtra("Item-Id",mcItemCache.get(barcode))
-        startActivity(intent)
+        if (barcode.format != null ) {
+            val lcCache = BarcodeRegistry.getAllEntries()
+            val intent = Intent(this, tcInventoryMgr::class.java)
+            intent.putExtra("BarCode", barcode.rawValue)
+            intent.putExtra("BarCodeFormat", getBarcodeFormatString(barcode.format))
+            intent.putExtra("Item-Id", lcCache[barcode])
+            startActivity(intent)
+        }
     }
-    fun getBarcodeFormatString(format: Int): String {
+    private fun getBarcodeFormatString(format: Int): String {
         return when (format) {
             Barcode.FORMAT_CODE_39 -> "FORMAT_CODE_39"
             Barcode.FORMAT_CODE_93 -> "FORMAT_CODE_93"
@@ -140,7 +139,12 @@ class MainActivity : ComponentActivity() {
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
                     for (barcode in barcodes) {
+                        if (barcode.rawValue != null) {
+                            gScanButton.backgroundTintList = ColorStateList.valueOf(Color.GREEN)
+                        }
                         gBarcode = barcode;
+
+
                     }
                 }
                 .addOnFailureListener {

@@ -7,15 +7,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.Barcode.BarcodeValueType
-import tcCache
 
 class tcInventoryMgr : AppCompatActivity() {
 
-    lateinit var mcCache : tcCache
-    lateinit var mcItemCache : HashMap<Barcode, String>
+    val lcCache = BarcodeRegistry.getAllEntries()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        mcCache = tcCache.get()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inv_mgr)
         val barCodeID = intent.getStringExtra("BarCode")
