@@ -144,7 +144,8 @@ class MainActivity : ComponentActivity() {
                         if (barcode.rawValue != null) {
                             gBarcode = barcode;
                             gScanButton.backgroundTintList = ColorStateList.valueOf(Color.GREEN)
-                        }else
+                        }
+                        else
                         {
 
                         }
