@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
         cameraExecutor = Executors.newSingleThreadExecutor()
         cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
         gScanButton = findViewById(R.id.gScanButton)
+        gScanButton.backgroundTintList = ColorStateList.valueOf(Color.RED)
         gScanButton.setOnClickListener {
             try {
                 SwitchToInvView(gBarcode)
@@ -84,7 +85,8 @@ class MainActivity : ComponentActivity() {
 
     private fun SwitchToInvView(barcode: Barcode)
     {
-        if (barcode.format != null ) {
+        if (barcode.format != -1 ) // -1 returns unknown barcode format
+        {
             val lcCache = BarcodeRegistry.getAllEntries()
             val intent = Intent(this, tcInventoryMgr::class.java)
             intent.putExtra("BarCode", barcode.rawValue)
@@ -140,9 +142,12 @@ class MainActivity : ComponentActivity() {
                 .addOnSuccessListener { barcodes ->
                     for (barcode in barcodes) {
                         if (barcode.rawValue != null) {
+                            gBarcode = barcode;
                             gScanButton.backgroundTintList = ColorStateList.valueOf(Color.GREEN)
+                        }else
+                        {
+
                         }
-                        gBarcode = barcode;
 
 
                     }
