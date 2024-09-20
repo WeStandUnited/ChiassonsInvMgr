@@ -57,7 +57,10 @@ class MainActivity : ComponentActivity() {
                 SwitchToInvView(gBarcode)
             } catch(e : Exception){
                 gScanButton.backgroundTintList = ColorStateList.valueOf(Color.RED)
+                // Put like a .5 sec sleep here?
                 Log.d("gScanButton","Barcode null")
+                gScanButton.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
             }
         }
     }
@@ -147,7 +150,7 @@ class MainActivity : ComponentActivity() {
                         }
                         else
                         {
-
+                            gScanButton.backgroundTintList = ColorStateList.valueOf(Color.RED)
                         }
 
 
