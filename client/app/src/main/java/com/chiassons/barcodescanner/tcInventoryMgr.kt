@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 class tcInventoryMgr : AppCompatActivity()
 {
 
-    val lcCache = BarcodeRegistry.getAllEntries()
     private lateinit var gItem : tcItem
     private lateinit var gRestMgr: tcRestMgr
 

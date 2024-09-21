@@ -12,9 +12,9 @@
 
 //Expected Response 1: Item is in database
 {
-
  "BarCodeNumber" :
  "BarCodeFormat" :
+ "ItemId" : 
  "Quantity" :
  "Item Name" :
  "Image Path" :
