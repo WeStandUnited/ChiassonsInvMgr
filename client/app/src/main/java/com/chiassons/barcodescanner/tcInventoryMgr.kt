@@ -15,6 +15,7 @@ class tcInventoryMgr : AppCompatActivity()
 
     val lcCache = BarcodeRegistry.getAllEntries()
     private lateinit var gItem : tcItem
+    private lateinit var gRestMgr: tcRestMgr
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -24,7 +25,7 @@ class tcInventoryMgr : AppCompatActivity()
         val barCodeID = intent.getStringExtra("BarCode")
         val barcodeFormat = intent.getStringExtra("BarCodeFormat")
         val mcItemId = intent.getStringExtra("Item-Id")
-
+        gRestMgr = tcRestMgr("")//TODO make config reader to get url value
 
         Log.d("BarcodeAnalyzer", "Barcode detected: " + barCodeID + ":" + barcodeFormat+ ":"+mcItemId)
 
@@ -34,15 +35,12 @@ class tcInventoryMgr : AppCompatActivity()
 
     }
 
-    fun getItemFromServer(rawBarCode : String?,
-                          barFormat : String?,
+    fun getItemFromServer(rawBarCode : String,
+                          barFormat : String,
                           itemId : String?)
     {
-
-        // Make
-
-
-
+        setItem(this.gRestMgr.GetItem(
+            tcItem(rawBarCode,barFormat,itemId,0,"",null,null)))
 
     }
 
@@ -61,7 +59,7 @@ class tcInventoryMgr : AppCompatActivity()
      */
     fun IncreaseQuantity()
     {
-        gItem.quantity++
+        gItem.quantity!! + 1
     }
     /**
      * Subtracts 1 to currently selected item
@@ -69,7 +67,7 @@ class tcInventoryMgr : AppCompatActivity()
      */
     fun DecreaseQuantity()
     {
-        gItem.quantity--
+        gItem.quantity!! - 1
     }
     /**
      * Sets current select item quantity

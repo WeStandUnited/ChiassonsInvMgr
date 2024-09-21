@@ -15,7 +15,7 @@ class tcRestMgr(private val baseUrl: String) {
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    fun GetItem(barcodeRequest: tcItem): Response? {
+    fun GetItem(barcodeRequest: tcItem): tcItem {
         // Initialize Moshi
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val jsonAdapter = moshi.adapter(tcItem::class.java)
@@ -37,12 +37,17 @@ class tcRestMgr(private val baseUrl: String) {
             .url(url)
             .build()
 
-        return try {
+        var response =  try {
             // Execute the request
             client.newCall(request).execute()
         } catch (e: IOException) {
             e.printStackTrace()
             null
         }
+        //TODO take response and parse it into item
+        var item : tcItem =
+            tcItem("rawBarCode","barFormat","itemId",0,"",null,null)
+
+        return item
     }
 }
