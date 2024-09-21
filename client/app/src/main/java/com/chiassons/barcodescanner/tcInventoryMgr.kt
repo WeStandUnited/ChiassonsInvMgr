@@ -4,6 +4,7 @@ import androidx.activity.ComponentActivity
 import android.os.Bundle
 import android.Manifest
 import android.util.Log
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.Barcode.BarcodeValueType
@@ -11,6 +12,7 @@ import com.google.mlkit.vision.barcode.Barcode.BarcodeValueType
 class tcInventoryMgr : AppCompatActivity() {
 
     val lcCache = BarcodeRegistry.getAllEntries()
+    private var gQuantity : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,31 @@ class tcInventoryMgr : AppCompatActivity() {
         // If GET returns null
         // then open adder menu
 
+    }
+
+
+
+
+    fun IncreaseQuantity()
+    {
+
+
+
+
+    }
+
+    fun DecreaseQuantity()
+    {
+
+
+
+
+    }
+
+    fun SetQuantity(quantity:Int)
+    {
+        //set gQuantity = quantity
+        gQuantity = quantity
     }
 
 }
