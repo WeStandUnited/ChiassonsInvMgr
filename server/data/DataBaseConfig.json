@@ -1,0 +1,12 @@
+{
+  "mysql-databases": {
+
+    "ItemInventory":{
+      "url": "jdbc:mysql://localhost:3306/iteminventory",
+      "user": "Bcode",
+      "password": "Scanner"
+    }
+
+  }
+}
+
